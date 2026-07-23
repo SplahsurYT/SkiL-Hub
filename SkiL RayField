@@ -2187,10 +2187,10 @@ function RayfieldLibrary:CreateWindow(Settings)
 		    Button.UIStroke.Transparency = 1
 		    Button.Title.TextTransparency = 1
 		
-		    -- Nouvelle option "Color" : permet de personnaliser la couleur du texte du bouton
-		    -- Si aucune couleur n'est fournie, on garde la couleur du thème par défaut
-		    local ButtonTextColor = ButtonSettings.Color or SelectedTheme.TextColor
-		    Button.Title.TextColor3 = ButtonTextColor
+		    -- Nouvelle option "Color" : couleur de fond personnalisée pour le bouton
+		    -- Si aucune couleur n'est fournie, on garde la couleur de fond du thème par défaut
+		    local ButtonBackgroundColor = ButtonSettings.Color or SelectedTheme.ElementBackground
+		    Button.BackgroundColor3 = ButtonBackgroundColor
 		
 		    TweenService:Create(Button, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {BackgroundTransparency = 0}):Play()
 		    TweenService:Create(Button.UIStroke, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {Transparency = 0}):Play()
@@ -2211,7 +2211,8 @@ function RayfieldLibrary:CreateWindow(Settings)
 		            warn('Check docs.sirius.menu for help with Rayfield specific development.')
 		            task.wait(0.5)
 		            Button.Title.Text = ButtonSettings.Name
-		            TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+		            -- On revient sur la couleur de fond personnalisée (au lieu de la couleur du thème)
+		            TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = ButtonBackgroundColor}):Play()
 		            TweenService:Create(Button.ElementIndicator, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {TextTransparency = 0.9}):Play()
 		            TweenService:Create(Button.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {Transparency = 0}):Play()
 		        else
@@ -2222,7 +2223,8 @@ function RayfieldLibrary:CreateWindow(Settings)
 		            TweenService:Create(Button.ElementIndicator, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {TextTransparency = 1}):Play()
 		            TweenService:Create(Button.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {Transparency = 1}):Play()
 		            task.wait(0.2)
-		            TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+		            -- On revient sur la couleur de fond personnalisée (au lieu de la couleur du thème)
+		            TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = ButtonBackgroundColor}):Play()
 		            TweenService:Create(Button.ElementIndicator, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {TextTransparency = 0.9}):Play()
 		            TweenService:Create(Button.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {Transparency = 0}):Play()
 		        end
@@ -2233,7 +2235,8 @@ function RayfieldLibrary:CreateWindow(Settings)
 		        TweenService:Create(Button.ElementIndicator, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {TextTransparency = 0.7}):Play()
 		    end)
 		    Button.MouseLeave:Connect(function()
-		        TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+		        -- On revient sur la couleur de fond personnalisée (au lieu de la couleur du thème)
+		        TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = ButtonBackgroundColor}):Play()
 		        TweenService:Create(Button.ElementIndicator, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {TextTransparency = 0.9}):Play()
 		    end)
 		
@@ -2242,14 +2245,14 @@ function RayfieldLibrary:CreateWindow(Settings)
 		        Button.Name = NewButton
 		    end
 		
-		    -- Nouvelle méthode : permet de changer la couleur du texte après la création du bouton
+		    -- Nouvelle méthode : permet de changer la couleur de fond après la création du bouton
 		    function ButtonValue:SetColor(NewColor)
-		        Button.Title.TextColor3 = NewColor
+		        ButtonBackgroundColor = NewColor
+		        Button.BackgroundColor3 = NewColor
 		    end
 		
 		    return ButtonValue
 		end
-
 		-- ColorPicker
 		function Tab:CreateColorPicker(ColorPickerSettings) -- by Throit
 			ColorPickerSettings.Type = "ColorPicker"
