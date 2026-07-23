@@ -2178,30 +2178,29 @@ function RayfieldLibrary:CreateWindow(Settings)
 		-- Button
 		function Tab:CreateButton(ButtonSettings)
 		    local ButtonValue = {}
+		    local CustomColor = ButtonSettings.Color or SelectedTheme.ElementBackground
+		    
 		    local Button = Elements.Template.Button:Clone()
 		    Button.Name = ButtonSettings.Name
 		    Button.Title.Text = ButtonSettings.Name
+		    Button.BackgroundColor3 = CustomColor
 		    Button.Visible = true
 		    Button.Parent = TabPage
 		    Button.BackgroundTransparency = 1
 		    Button.UIStroke.Transparency = 1
 		    Button.Title.TextTransparency = 1
 		
-		    -- Nouvelle option "Color" : couleur de fond personnalisée pour le bouton
-		    -- Si aucune couleur n'est fournie, on garde la couleur de fond du thème par défaut
-		    local ButtonBackgroundColor = ButtonSettings.Color or SelectedTheme.ElementBackground
-		    Button.BackgroundColor3 = ButtonBackgroundColor
-		
 		    TweenService:Create(Button, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {BackgroundTransparency = 0}):Play()
 		    TweenService:Create(Button.UIStroke, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {Transparency = 0}):Play()
-		    TweenService:Create(Button.Title, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {TextTransparency = 0}):Play()	
+		    TweenService:Create(Button.Title, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {TextTransparency = 0}):Play()
 		
 		    Button.Interact.MouseButton1Click:Connect(function()
 		        local Success, Response = pcall(ButtonSettings.Callback)
-		        -- Empêche l'animation de jouer si le callback a appelé RayfieldLibrary:Destroy()
+		        -- Prevents animation from trying to play if the button's callback called RayfieldLibrary:Destroy()
 		        if rayfieldDestroyed then
 		            return
 		        end
+		
 		        if not Success then
 		            TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(85, 0, 0)}):Play()
 		            TweenService:Create(Button.ElementIndicator, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {TextTransparency = 1}):Play()
@@ -2211,8 +2210,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 		            warn('Check docs.sirius.menu for help with Rayfield specific development.')
 		            task.wait(0.5)
 		            Button.Title.Text = ButtonSettings.Name
-		            -- On revient sur la couleur de fond personnalisée (au lieu de la couleur du thème)
-		            TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = ButtonBackgroundColor}):Play()
+		            TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = CustomColor}):Play()
 		            TweenService:Create(Button.ElementIndicator, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {TextTransparency = 0.9}):Play()
 		            TweenService:Create(Button.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {Transparency = 0}):Play()
 		        else
@@ -2223,8 +2221,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 		            TweenService:Create(Button.ElementIndicator, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {TextTransparency = 1}):Play()
 		            TweenService:Create(Button.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {Transparency = 1}):Play()
 		            task.wait(0.2)
-		            -- On revient sur la couleur de fond personnalisée (au lieu de la couleur du thème)
-		            TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = ButtonBackgroundColor}):Play()
+		            TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = CustomColor}):Play()
 		            TweenService:Create(Button.ElementIndicator, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {TextTransparency = 0.9}):Play()
 		            TweenService:Create(Button.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {Transparency = 0}):Play()
 		        end
@@ -2234,9 +2231,9 @@ function RayfieldLibrary:CreateWindow(Settings)
 		        TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = SelectedTheme.ElementBackgroundHover}):Play()
 		        TweenService:Create(Button.ElementIndicator, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {TextTransparency = 0.7}):Play()
 		    end)
+		
 		    Button.MouseLeave:Connect(function()
-		        -- On revient sur la couleur de fond personnalisée (au lieu de la couleur du thème)
-		        TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = ButtonBackgroundColor}):Play()
+		        TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = CustomColor}):Play()
 		        TweenService:Create(Button.ElementIndicator, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {TextTransparency = 0.9}):Play()
 		    end)
 		
@@ -2245,14 +2242,9 @@ function RayfieldLibrary:CreateWindow(Settings)
 		        Button.Name = NewButton
 		    end
 		
-		    -- Nouvelle méthode : permet de changer la couleur de fond après la création du bouton
-		    function ButtonValue:SetColor(NewColor)
-		        ButtonBackgroundColor = NewColor
-		        Button.BackgroundColor3 = NewColor
-		    end
-		
 		    return ButtonValue
 		end
+
 		-- ColorPicker
 		function Tab:CreateColorPicker(ColorPickerSettings) -- by Throit
 			ColorPickerSettings.Type = "ColorPicker"
