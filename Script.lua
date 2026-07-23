@@ -209,7 +209,7 @@ local window = Rayfield:CreateWindow({
 	subtitle = "The New Hub",
 	configuration = {
 		autoSave = true,      -- save on change
-		autoLoad = true,      -- load on first open
+		autoLoad = false,      -- load on first open
 		fileName = "SkiL Hub",
 		customFolder = "MyGame", -- optional
 	},
