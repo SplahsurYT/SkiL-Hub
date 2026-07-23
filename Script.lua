@@ -206,14 +206,7 @@ local Rayfield = loadstring(game:HttpGet("https://sirius.menu/gen2"))()
 
 local window = Rayfield:CreateWindow({
 	name = "SkiL Hub",
-	subtitle = "The New Hub",
-	configuration = {
-		autoSave = true,      -- save on change
-		autoLoad = false,      -- load on first open
-		fileName = "SkiL Hub",
-		customFolder = "MyGame", -- optional
-	},
-	
+	subtitle = "The New Hub"
 })
 
 
